@@ -19,11 +19,11 @@ describe Oystercard do
     end
   end
 
-  describe 'deduct' do
-    it 'can deduct money from the card' do
-    expect{ subject.deduct 5 }.to change{ subject.balance }.by -5
-    end
-  end
+  #describe 'deduct' do
+  #  it 'can deduct money from the card' do
+  #  expect{ subject.deduct 5 }.to change{ subject.balance }.by -5
+  #  end
+  #end
 
   describe 'in_journey' do
     it 'oystecard active if touch_in' do
@@ -33,6 +33,13 @@ describe Oystercard do
 
     it 'oystercard in-active if touch_out' do
       expect(subject.touch_out).to eq false
+    end
+
+    it 'oystercard balance reduces by min fare' do
+      minimum_fare = Oystercard::MINIMUM_FARE
+      subject.top_up(5)
+      subject.touch_in
+      expect{ subject.touch_out }.to change{ subject.balance }.by -minimum_fare
     end
 
     it 'oystercard active, in-journey' do
